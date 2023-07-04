@@ -36,5 +36,3 @@ add_filter( 'script_loader_tag', function($tag) {
 
 	return $tag;
 });
-
-echo 't';

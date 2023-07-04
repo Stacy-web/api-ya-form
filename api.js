@@ -1,3 +1,5 @@
+import { API_TOKEN } from './config.js';
+
 ( function( $ ) {
     $('form').on('submit', function(e) {
         e.preventDefault();

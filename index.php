@@ -1,6 +1,6 @@
 <?php
 
-add_shortcode('ya-api-form', function() {
+add_shortcode( 'ya-api-form', function() {
     ob_start();
 
 	get_template_part(
@@ -24,7 +24,15 @@ wp_enqueue_script(
 wp_enqueue_script(
 	'ya-api-form',
 	get_template_directory_uri() . '/widgets/ya-api-form/api.js',
-	array(),
-	filemtime(get_template_directory_uri() . '/widgets/ya-api-form/api.js'),
+	array('jquery'),
+	filemtime( get_theme_file_path('/widgets/ya-api-form/api.js') ),
 	true
 );
+
+add_filter( 'script_loader_tag', function($tag) {
+	if ( str_contains($tag, 'ya-api-form') ) {
+		$tag = str_replace( 'text/javascript', 'module', $tag );
+	}
+
+	return $tag;
+});

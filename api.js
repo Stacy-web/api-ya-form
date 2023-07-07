@@ -32,4 +32,5 @@ import { API_TOKEN } from './config.js';
             }
         });
     }); 
+    
 } )(jQuery)

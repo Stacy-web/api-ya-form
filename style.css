@@ -1,0 +1,84 @@
+body {
+    background-color: #FBFBFB;
+}
+
+form {
+    width: 100%;
+    min-width: 100%;
+}
+
+.form-group {
+    background-color: rgba(33, 150, 243, .04) ;
+    border: 1px solid rgba(89, 109, 121, .5);
+    border-radius: 48px;
+    padding: 71px 82px 60px 82px;
+}
+
+.custom-input {
+    width: 100%;
+}
+
+.custom-input:not(:last-of-type) {
+    margin-bottom: 35px;
+    display: block;
+}
+
+.custom-input > span {
+    display: block;
+    margin-bottom: 15px;
+    color: #2A2B31;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.custom-input > input,
+.custom-input > textarea {
+    width: 100%;
+    outline: none;
+    padding: 15px 22px;
+    border-radius: 5px;
+    border: 1px solid rgba(44, 66, 84, .5);
+    background-color: #F5FBFF;
+    font-size: 16px;
+}
+
+.custom-input > input:focus,
+.custom-input > textarea:focus {
+    outline: none;
+}
+
+.custom-input > input::placeholder,
+.custom-input > textarea::placeholder {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(42, 43, 49, .5);
+}
+
+.custom-input__file {
+    background-color: #F5FBFF;
+    border-radius: 5px;
+    border: 1px solid rgba(44, 66, 84, .5);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 0;
+    cursor: pointer;
+}
+
+.custom-input__file input {
+    position: absolute;
+    top: -99999999px;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.custom-input__file span {
+    display: inline-block;
+    background-color: #2196F3;
+    border-radius: 5px;
+    padding: 17px 90px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #F8F8F8;
+}

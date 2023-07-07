@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload to Yandex.Disk</title>
+</head>
+
+<body>
+    <form id="uploadForm">
+        <input type="text" name="surname" placeholder="Фамилия">
+        <input type="text" name="firstName" placeholder="Имя">
+        <input type="text" name="patronymic" placeholder="Отчество">
+        <input type="email" name="email" placeholder="Электронная почта">
+        <input type="tel" name="phone" placeholder="Телефон">
+        <input type="number" name="totalExperience" placeholder="Общий стаж работы">
+        <input type="number" name="leadershipExperience" placeholder="Стаж на руководящих должностях">
+        <input type="text" name="softwareList" placeholder="Перечень ПО">
+        <input type="file" id="fileInput" multiple>
+        <progress id="progressBar" value="0" max="100"></progress>
+        <button type="submit">Отправить</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('#uploadForm').on('submit', function (e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                var files = $('#fileInput')[0].files;
+                for (var i = 0; i < files.length; i++) {
+                    formData.append('files[]', files[i]);
+                }
+                uploadToYandexDisk(formData);
+            });
+
+            function uploadToYandexDisk(formData) {
+                var accessToken = 'y0_AgAAAABaJGDNAAnn_gAAAADjNlPU4taDJMQbRrKdMeWiyXl-3at_aOw';
+                var uploadUrl = 'https://cloud-api.yandex.net/v1/disk/resources/upload';
+                var uploadPath = '/test/';
+                var folderName;
+
+                // Создание папок на Яндекс.Диске в соответствии с группами полей
+                if (formData.has('surname')) {
+                    folderName = formData.get('surname');
+                    uploadPath += folderName + '/';
+                    formData.delete('surname');
+                }
+
+                if (formData.has('firstName')) {
+                    folderName += '_' + formData.get('firstName');
+                    uploadPath += folderName + '/';
+                    formData.delete('firstName');
+                }
+
+                if (formData.has('patronymic')) {
+                    folderName += '_' + formData.get('patronymic');
+                    uploadPath += folderName + '/';
+                    formData.delete('patronymic');
+                }
+
+                createFolder(uploadPath, function (response) {
+                    if (response.success) {
+                        $.ajax({
+                            url: uploadUrl,
+                            type: 'GET',
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader('Authorization', 'OAuth ' + accessToken);
+                            },
+                            data: {
+                                path: uploadPath + formData.get('files[]').name,
+                                overwrite: true
+                            },
+                            success: function (response) {
+                                var uploadUrl = response.href;
+                                uploadFilesToUrl(formData, uploadUrl);
+                            },
+                            error: function (xhr, status, error) {
+                                console.log('Ошибка получения URL для загрузки:', error);
+                            }
+                        });
+                    } else {
+                        console.log('Ошибка создания папки на Яндекс.Диске:', response.error);
+                    }
+                });
+            }
+
+            function createFolder(path, callback) {
+                var createFolderUrl = 'https://cloud-api.yandex.net/v1/disk/resources';
+                $.ajax({
+                    url: createFolderUrl,
+                    type: 'PUT',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'OAuth ' + accessToken);
+                    },
+                    data: {
+                        path: path
+                    },
+                    success: function (response) {
+                        callback({
+                            success: true
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        callback({
+                            success: false,
+                            error: error
+                        });
+                    }
+                });
+            }
+
+            function uploadFilesToUrl(formData, url) {
+                $.ajax({
+                    url: url,
+                    type: 'PUT',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    xhr: function () {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener('progress', function (e) {
+                            if (e.lengthComputable) {
+                                var percent = (e.loaded / e.total) * 100;
+                                $('#progressBar').val(percent);
+                                console.log('Прогресс загрузки: ' + percent + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    success: function (response) {
+                        console.log('Файлы успешно загружены на Яндекс.Диск:', response);
+                        // Показать прогресс-бар и скрыть форму после успешной загрузки
+                        $('#progressBar').show();
+                        $('#uploadForm').hide();
+                        checkPageClose();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Ошибка загрузки файлов:', error);
+                    }
+                });
+            }
+
+            function checkPageClose() {
+                $(window).on('beforeunload', function () {
+                    return 'Вы уверены, что хотите покинуть страницу?';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload to Yandex.Disk</title>
+</head>
+
+<body>
+    <input type="file" id="fileInput">
+    <progress id="progressBar" value="0" max="100"></progress>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            // Обработчик события выбора файла пользователем
+            $('#fileInput').on('change', function () {
+                var file = this.files[0];
+                uploadToYandexDisk(file);
+            });
+
+            // Функция для загрузки файла на Яндекс.Диск
+            function uploadToYandexDisk(file) {
+                var accessToken = 'y0_AgAAAABaJGDNAAnn_gAAAADjNlPU4taDJMQbRrKdMeWiyXl-3at_aOw';
+                var uploadUrl = 'https://cloud-api.yandex.net/v1/disk/resources/upload';
+                var uploadPath = '/test/' + file.name;
+
+                $.ajax({
+                    url: uploadUrl,
+                    type: 'GET',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'OAuth ' + accessToken);
+                    },
+                    data: {
+                        path: uploadPath,
+                        overwrite: true
+                    },
+                    success: function (response) {
+                        var uploadUrl = response.href;
+                        uploadFileToUrl(file, uploadUrl);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Ошибка получения URL для загрузки:', error);
+                    }
+                });
+            }
+
+            // Функция для загрузки файла на полученный URL
+            function uploadFileToUrl(file, url) {
+                var formData = new FormData();
+                formData.append('file', file);
+
+                $.ajax({
+                    url: url,
+                    type: 'PUT',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    xhr: function () {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener('progress', function (e) {
+                            if (e.lengthComputable) {
+                                var percent = (e.loaded / e.total) * 100;
+                                // Обновляем прогресс-бар или отображаем прогресс загрузки
+                                $('#progressBar').val(percent);
+                                console.log('Прогресс загрузки: ' + percent + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    success: function (response) {
+                        console.log('Файл успешно загружен на Яндекс.Диск:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Ошибка загрузки файла:', error);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

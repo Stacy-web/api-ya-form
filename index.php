@@ -1,4 +1,6 @@
 <?php
+include "api.php";
+
 add_shortcode('ya-api-form', function () {
 	ob_start();
 
@@ -49,10 +51,8 @@ wp_enqueue_script(
 	true
 );
 
-add_filter('script_loader_tag', function ($tag) {
-	if (str_contains($tag, 'ya-api-form')) {
-		$tag = str_replace('text/javascript', 'module', $tag);
-	}
-
-	return $tag;
-});
+add_action( 'wp_enqueue_scripts', function() {
+	wp_localize_script( 'ya-api-form', 'ajax', array(
+		'url' => admin_url('admin-ajax.php')
+	) );
+} );

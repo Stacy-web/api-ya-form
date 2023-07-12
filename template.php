@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data">
+<form id="ya-api-form" enctype="multipart/form-data">
     <div class="container">
         <div class="row">
             <div class="col-6">
@@ -25,7 +25,7 @@
                         <span>Телефон</span>
                         <input type="text" name="phone">
                     </label>
-                    <label class="custom-input">
+                    <div class="custom-input">
                         <span>Фото специалиста</span>
 
                         <label class="custom-input__file">
@@ -34,7 +34,7 @@
                             <span>Выбрать файлы</span>
                         </label>
                         <ul></ul>
-                    </label>
+                    </div>
                 </div>
             </div>
             <div class="col-6">
@@ -51,15 +51,15 @@
                     </label>
                     <label class="custom-input">
                         <span>Перечень ПО, применяемого в работе</span>
-                        <textarea name="" cols="30" rows="3" name="po"></textarea>
+                        <textarea cols="30" rows="3" name="po"></textarea>
                     </label>
                     <label class="custom-input">
                         <span>Диплом о высшем образовании (без заверения)</span>
-                        <input type="file" name="diplom">
+                        <input type="file" name="diplom" data-path="Диплом">
                     </label>
                     <label class="custom-input">
                         <span>Трудовая книжка (без заверения)</span>
-                        <input type="file" name="tk">
+                        <input type="file" name="tk" data-path="Трудовая книжка">
                     </label>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                         </label>
                         <label class="custom-input">
                             <span>Фотография или чертеж первого объекта (необязательно, но желательно)</span>
-                            <input type="file" name="object1_files">
+                            <input type="file" name="object1_files" data-path="Объекты/Объект 1">
                         </label>
                     </div>
                     <div class="unit">
@@ -102,7 +102,7 @@
                         </label>
                         <label class="custom-input">
                             <span>Фотография или чертеж второго объекта (необязательно, но желательно)</span>
-                            <input type="file" name="object2_files">
+                            <input type="file" name="object2_files" data-path="Объекты/Объект 2">
                         </label>
                     </div>
                     <div class="unit">
@@ -120,7 +120,7 @@
                         </label>
                         <label class="custom-input">
                             <span>Фотография или чертеж третьего объекта (необязательно, но желательно)</span>
-                            <input type="file" name="object3_files">
+                            <input type="file" name="object3_files" data-path="Объекты/Объект 3">
                         </label>
                     </div>
                 </div>
@@ -141,5 +141,8 @@
                 </label>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <input type="submit" value="Отправить">
     </div>
 </form>

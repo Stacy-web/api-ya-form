@@ -29,7 +29,7 @@
                         <span>Фото специалиста</span>
 
                         <label class="custom-input__file">
-                            <input type="file" name="photo_spec" multiple>
+                            <input type="file" name="photo_spec" multiple data-path="">
 
                             <span>Выбрать файлы</span>
                         </label>
@@ -55,11 +55,23 @@
                     </label>
                     <label class="custom-input">
                         <span>Диплом о высшем образовании (без заверения)</span>
-                        <input type="file" name="diplom" data-path="Диплом">
+
+                        <label class="custom-input__file">
+                            <input type="file" name="diplom" data-path="Диплом" data-path="Диплом">
+
+                            <span>Выбрать файлы</span>
+                        </label>
+                        <ul></ul>
                     </label>
                     <label class="custom-input">
                         <span>Трудовая книжка (без заверения)</span>
-                        <input type="file" name="tk" data-path="Трудовая книжка">
+
+                        <label class="custom-input__file">
+                            <input type="file" name="tk" data-path="Трудовая книжка">
+
+                            <span>Выбрать файлы</span>
+                        </label>
+                        <ul></ul>
                     </label>
                 </div>
             </div>
@@ -84,7 +96,13 @@
                         </label>
                         <label class="custom-input">
                             <span>Фотография или чертеж первого объекта (необязательно, но желательно)</span>
-                            <input type="file" name="object1_files" data-path="Объекты/Объект 1">
+
+                            <label class="custom-input__file">
+                                <input type="file" name="object1_files" data-path="Объекты/Объект 1">
+
+                                <span>Выбрать файлы</span>
+                            </label>
+                            <ul></ul>
                         </label>
                     </div>
                     <div class="unit">
@@ -102,7 +120,13 @@
                         </label>
                         <label class="custom-input">
                             <span>Фотография или чертеж второго объекта (необязательно, но желательно)</span>
-                            <input type="file" name="object2_files" data-path="Объекты/Объект 2">
+
+                            <label class="custom-input__file">
+                                <input type="file" name="object2_files" data-path="Объекты/Объект 2">
+
+                                <span>Выбрать файлы</span>
+                            </label>
+                            <ul></ul>
                         </label>
                     </div>
                     <div class="unit">
@@ -120,7 +144,13 @@
                         </label>
                         <label class="custom-input">
                             <span>Фотография или чертеж третьего объекта (необязательно, но желательно)</span>
-                            <input type="file" name="object3_files" data-path="Объекты/Объект 3">
+                            
+                            <label class="custom-input__file">
+                                <input type="file" name="object3_files" data-path="Объекты/Объект 3">
+
+                                <span>Выбрать файлы</span>
+                            </label>
+                            <ul></ul>
                         </label>
                     </div>
                 </div>
@@ -132,7 +162,7 @@
 
                 <label class="custom-input">
                     <span>Дата реализации третьего объекта</span>
-                    
+
                     <select name="object_type" id="">
                         <option value="">Объект капитального строительства</option>
                         <option value="">Линейный объект</option>

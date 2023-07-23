@@ -1,4 +1,5 @@
 ( function( $ ) {
+<<<<<<< HEAD
     let inputMem = {};
 
     function checkInFiles(files, file) {
@@ -41,4 +42,15 @@
         $('[data-obj-type]').hide();
         $('[data-obj-type="' + objectType + '"]').fadeIn();
     });
+=======
+    $('.custom-input__file input').on('change', function() {
+        const files = this.files;
+        
+        for (let i = 0; i < files.length; i++) {
+            $(this)
+                .closest('.custom-input__file')
+                    .next().append('<li><span>' + files[i]['name'] + '</span><a href="">x</a></li>');
+        }
+    });
+>>>>>>> 8e1140118d548c64a1ad0f6ed053cace09319191
 } )(jQuery);
